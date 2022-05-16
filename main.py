@@ -3,10 +3,11 @@ import qtm
 import qtm_tools
 import cflib.crtp
 import pynput
-from typing import List, Union
+from typing import List, Union, Tuple
 from cflib.crazyflie import Crazyflie
 from swarm_object_class import SwarmObject
 from agent_class import Agent
+from network_communication_class import NetworkCommunication
 from joystick_handler import Joystick
 
 
@@ -157,6 +158,9 @@ if __name__ == '__main__':
     # QTM server IP address
     qtm_ip_address: str = '192.168.0.1'
 
+    this_PC_attributes: Tuple[str, int] = ('192.168.0.102', 4444)
+    other_PCs_attributes: List[Tuple[str, int]] = [('192.168.0.100', 4444)]
+
     # Association array between QTM body names and Crazyflies radio identification numbers
     # [[1st cf name on QTM, 1st cf uri, 1st cf takeoff height (m), 1st cf connectivity, 1st cf obstacles],
     #  [2nd cf name on QTM, 2nd cf uri, 2nd cf takeoff height (m), 2nd cf connectivity, 2nd cf obstacles],
@@ -191,7 +195,9 @@ if __name__ == '__main__':
     PACKET_COUNT = 0
     RUN_TRACKER = True
 
-    js = Joystick(SWARM_MANAGER)
+    communication_tool = NetworkCommunication(this_PC_attributes, other_PCs_attributes)
+    joystick_connected = True
+    js = Joystick(SWARM_MANAGER, communication_tool, joystick_connected)
 
     #         -------- Crazyflies connection            --------         #
     for agent_specs in cf_addresses:
