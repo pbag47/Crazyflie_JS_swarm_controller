@@ -14,8 +14,9 @@ class NetworkCommunication:
         self.receiver_socket.bind(self.this_PC)
 
     def send_packet(self, data: str):
+        packet = self.this_PC[0] + ' ' + data
         for pc in self.other_PCs:
-            self.sender_socket.sendto(data.encode('utf-8'), pc)
+            self.sender_socket.sendto(packet.encode('utf-8'), pc)
         print('Packet sent :', data)
 
     def disconnect(self):

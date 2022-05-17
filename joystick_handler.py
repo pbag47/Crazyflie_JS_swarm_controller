@@ -153,14 +153,14 @@ class Joystick:
         while not self.stopped:
             packet, address = self.network_comm.receiver_socket.recvfrom(4096)
             data = packet.decode('utf-8').split()
-            value = data[0]
-            command_type = data[1]
+            value = float(data[1])
+            command_type = data[2]
             if command_type == 'button':
-                button = data[2]
+                button = data[3]
                 if button:
                     self.buttons(button, value)
             if command_type == 'axis':
-                axis = data[2]
+                axis = data[3]
                 if axis:
                     self.axis(axis, value)
 
