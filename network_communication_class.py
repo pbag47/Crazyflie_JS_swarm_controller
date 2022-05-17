@@ -17,7 +17,7 @@ class NetworkCommunication:
         packet = self.this_PC[0] + ' ' + data
         for pc in self.other_PCs:
             self.sender_socket.sendto(packet.encode('utf-8'), pc)
-        print('Packet sent :', data)
+        print('Packet sent :', packet)
 
     def disconnect(self):
         data = 'Disconnecting...'
